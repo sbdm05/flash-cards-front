@@ -1,0 +1,7 @@
+{
+  "name": "flash-cards",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
