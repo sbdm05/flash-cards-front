@@ -9,6 +9,7 @@ import {
   Observable,
   retry,
   retryWhen,
+  Subject,
   take,
   tap,
 } from 'rxjs';
@@ -24,10 +25,10 @@ export class MetApiService {
   public filteredTab = filteredId;
   public randomId!: number;
 
-  public id$ = new BehaviorSubject(
-    this.filteredTab[Math.floor(Math.random() * this.filteredTab.length)]
+  public id$ = new Subject(
+
   );
-  public collection$ = new BehaviorSubject({});
+  public collection$ = new Subject();
   public id!: any;
 
   constructor(private http: HttpClient) {
@@ -40,7 +41,7 @@ export class MetApiService {
     // });
     // and run getRandomItem again
     //this.getRandomItem(this.id);
-    this.refresh();
+    //this.refresh();
   }
 
   public refresh() {
@@ -77,7 +78,7 @@ export class MetApiService {
       )
       .subscribe({
         next:(data) =>this.collection$.next(data),
-        error: (e)=> this.refresh()
+        error: (e)=> this.getRandomItem()
       });
   }
 }

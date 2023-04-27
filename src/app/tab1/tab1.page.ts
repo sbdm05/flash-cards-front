@@ -26,8 +26,7 @@ export class Tab1Page {
     private openAiService: OpenaiService,
     private metApiService: MetApiService
   ) {
-    this.metApiService.refresh();
-
+     
   }
 
   // getItem() {
