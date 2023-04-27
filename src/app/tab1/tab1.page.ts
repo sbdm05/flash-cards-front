@@ -21,13 +21,12 @@ import { FormComponent } from '../shared/components/form/form.component';
 })
 export class Tab1Page {
   public img!: any;
+  public explanation !: string;
 
   constructor(
     private openAiService: OpenaiService,
     private metApiService: MetApiService
-  ) {
-     
-  }
+  ) {}
 
   // getItem() {
   //   this.img = '';
@@ -41,7 +40,7 @@ export class Tab1Page {
     {
       role: 'system',
       content:
-        "Chaque question/ réponse sera dans son propre objet dans un tableau au format array javascript. Pour chaque question/réponse tu fourniras la source où tu as trouvé l'information. Fournis uniquement le tableau entre crochets [], sans texte avant",
+        'The response should start directly with the answer without you telling me anything else.',
     },
   ];
 
@@ -52,7 +51,6 @@ export class Tab1Page {
       console.log(item);
       this.img = item;
     });
-
   }
 
   // onSubmit(obj: any) {
@@ -69,4 +67,15 @@ export class Tab1Page {
 
   //   });
   // }
+
+  onExplain(title: string, painter: string, period: string) {
+    const newMessage = `Can you explain to a total beginner in painting the painting ${title} from ${painter}, painted in ${period}. The response should start directly with the answer without you telling me anything else.`;
+    this.messages = [...this.messages, { role: 'user', content: newMessage }];
+    this.openAiService.getCollection(this.messages).subscribe((data) => {
+      console.log(data);
+      const { chatGPTMessage } = data;
+      this.explanation = chatGPTMessage.content;
+      //console.log(tempTab);
+    });
+  }
 }

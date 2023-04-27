@@ -9,10 +9,22 @@
 <!-- <ion-content [fullscreen]="true" class='main-content'>
   <app-form (submitted)='onSubmit($event)'></app-form>
 </ion-content> -->
-<ion-content *ngIf='this.img'>
-  <ion-img [src]="this.img?.primaryImage"
-    [alt]="this.img?.title"></ion-img>
-    <h2>{{this.img?.title}}</h2>
+<ion-content >
+
+
+  <ion-card *ngIf='this.img'>
+    <ion-img [src]="this.img?.primaryImage" [alt]="this.img?.title">
+    </ion-img>
+    <ion-card-header>
+      <ion-card-title>{{this.img?.title}}</ion-card-title>
+      <ion-card-subtitle>{{this.img.artistDisplayName}} - {{this.img?.objectDate}}</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-button *ngIf='!this.explanation' (click)='onExplain(this.img.title, this.img.artistDisplayName, this.img.objectEndDate)'>Can you explain ?</ion-button>
+    <ion-card-content *ngIf='this.explanation'>
+     {{this.explanation}}
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>
 

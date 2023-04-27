@@ -32,22 +32,10 @@ export class MetApiService {
   public id!: any;
 
   constructor(private http: HttpClient) {
-    // subscribe to observable id$ and save in id
-    // this.id$.subscribe((newId) => {
-    //   console.log(newId, 'into the constructor');
-    //   this.id = newId;
-    //   console.log(this.id, 'this;id into the constructor');
-    //   this.getRandomItem(this.id);
-    // });
-    // and run getRandomItem again
-    //this.getRandomItem(this.id);
-    //this.refresh();
   }
 
   public refresh() {
-    // this.id$.next(
-    //   this.filteredTab[Math.floor(Math.random() * this.filteredTab.length)]
-    // );
+
     this.getRandomItem();
     return this.collection$;
   }
@@ -62,17 +50,14 @@ export class MetApiService {
       .get<any>(`${this.urlApi}/${id}`)
       .pipe(
         map((data) => {
-          if (data.primaryImage !== '') {
+          if (
+            data.primaryImage !== '' &&
+            data.department === 'European Paintings'
+          ) {
             return data;
           } else {
-            // this.id$.next(
-            //   this.filteredTab[
-            //     Math.floor(Math.random() * this.filteredTab.length)
-            //   ]
-            // );
-            // pass new value to id
             console.log('problème');
-            throw new Error()
+            throw new Error();
           }
         })
       )

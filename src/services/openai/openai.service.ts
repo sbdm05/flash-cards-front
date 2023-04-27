@@ -7,12 +7,12 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class OpenaiService {
-  private urlApi: string = environment.urlApi;
+  private urlApiOpenAi: string = environment.urlApiOpenAi;
 
   constructor(private http: HttpClient) {}
 
   // get list of articles
   public getCollection(obj: any): Observable<any> {
-    return this.http.post<any>(`${this.urlApi}`, obj);
+    return this.http.post<any>(`${this.urlApiOpenAi}`, obj);
   }
 }

@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   urlApi: 'https://collectionapi.metmuseum.org/public/collection/v1/objects/',
+  urlApiOpenAi: 'http://localhost:3000/api/v1/flash-cards',
 };
 
 /*
