@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  urlApi: 'https://collectionapi.metmuseum.org/public/collection/v1/objects/',
 };
 
 /*

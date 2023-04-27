@@ -1,0 +1,19 @@
+<form id="container" [formGroup]='form' (ngSubmit)='onSubmit()'>
+  <div>
+    <h3 style='text-align:center'>Quel sujet ?</h3>
+    <ion-item>
+      <ion-input  formControlName='category' id='subject'></ion-input>
+    </ion-item>
+  </div>
+  <div>
+    <h3 style='text-align:center'>Combien de questions ?</h3>
+  <ion-radio-group value="custom-checked" formControlName='quizzlength'>
+    <ion-radio value="dix" aria-label="Custom checkbox" >10</ion-radio>
+    <ion-radio value="vingt" aria-label="Custom checkbox that is checked">20</ion-radio>
+    <ion-radio value="trente" aria-label="Custom checkbox that is checked">30</ion-radio>
+
+  </ion-radio-group>
+  </div>
+
+  <ion-button expand="block" type='submit'>C'est parti !</ion-button>
+</form>

@@ -1,17 +1,25 @@
-<ion-header [translucent]="true">
+<!-- <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
       Tab 1
     </ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<!-- <ion-content [fullscreen]="true" class='main-content'>
+  <app-form (submitted)='onSubmit($event)'></app-form>
+</ion-content> -->
+<ion-content *ngIf='this.img'>
+  <ion-img [src]="this.img?.primaryImage"
+    [alt]="this.img?.title"></ion-img>
+    <h2>{{this.img?.title}}</h2>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
 </ion-content>
+
+<ion-content *ngIf='!this.img'>
+  <app-explore-container>
+    <ion-spinner color="tertiary"></ion-spinner>
+  </app-explore-container>
+</ion-content>
+
+
