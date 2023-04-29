@@ -21,20 +21,19 @@ import { FormComponent } from '../shared/components/form/form.component';
 })
 export class Tab1Page {
   public img!: any;
-  public explanation !: string;
+  public explanation !: any;
+  public isRevealed = false;
 
   constructor(
     private openAiService: OpenaiService,
     private metApiService: MetApiService
-  ) {}
+  ) {
+    // subscribe to explanation$
+    this.metApiService.explanation$.subscribe(data=>{
+      this.explanation = data
+    })
+  }
 
-  // getItem() {
-  //   this.img = '';
-  //    this.metApiService.getRandomItem().subscribe((item) => {
-  //      console.log(item);
-  //      this.img = item;
-  //    });
-  // }
 
   public messages = [
     {
@@ -45,7 +44,10 @@ export class Tab1Page {
   ];
 
   ionViewWillEnter() {
+    console.log('test depuis ionviewenter')
     this.img = '';
+    this.explanation = '';
+    this.isRevealed = false;
     console.log(this.img);
     this.metApiService.refresh().subscribe((item) => {
       console.log(item);
@@ -53,29 +55,20 @@ export class Tab1Page {
     });
   }
 
-  // onSubmit(obj: any) {
-  //   console.log(obj);
-  //   const { category, quizzlength } = obj;
-  //   const newMessage = `Peux tu me fournir un tableau au format array javascript sur ${category} de ${quizzlength} questions`;
-  //   this.messages = [...this.messages, { role: 'user', content: newMessage }];
 
-  //   this.openAiService.getCollection(this.messages).subscribe(data=>{
-  //     console.log(data);
-  //     const {chatGPTMessage} = data;
-  //     const tempTab = chatGPTMessage.content.split('javascript')
-  //     console.log(tempTab)
+  // onExplain(title: string, painter: string, period: string) {
+  //   // const newMessage = `Can you explain to a total beginner in painting the painting ${title} from ${painter}, painted in ${period}. The response should start directly with the answer without you telling me anything else.`;
+  //   // this.messages = [...this.messages, { role: 'user', content: newMessage }];
+  //   // this.openAiService.getCollection(this.messages).subscribe((data) => {
+  //   //   console.log(data);
+  //   //   const { chatGPTMessage } = data;
+  //   //   this.explanation = chatGPTMessage.content;
+  //   //   //console.log(tempTab);
+  //   // });
 
-  //   });
   // }
-
-  onExplain(title: string, painter: string, period: string) {
-    const newMessage = `Can you explain to a total beginner in painting the painting ${title} from ${painter}, painted in ${period}. The response should start directly with the answer without you telling me anything else.`;
-    this.messages = [...this.messages, { role: 'user', content: newMessage }];
-    this.openAiService.getCollection(this.messages).subscribe((data) => {
-      console.log(data);
-      const { chatGPTMessage } = data;
-      this.explanation = chatGPTMessage.content;
-      //console.log(tempTab);
-    });
+  onExplain(){
+    // reveal
+    this.isRevealed = true
   }
 }

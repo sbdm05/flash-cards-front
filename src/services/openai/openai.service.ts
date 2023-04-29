@@ -9,6 +9,8 @@ import { environment } from 'src/environments/environment';
 export class OpenaiService {
   private urlApiOpenAi: string = environment.urlApiOpenAi;
 
+
+
   constructor(private http: HttpClient) {}
 
   // get list of articles

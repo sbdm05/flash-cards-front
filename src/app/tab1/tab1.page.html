@@ -20,8 +20,8 @@
       <ion-card-subtitle>{{this.img.artistDisplayName}} - {{this.img?.objectDate}}</ion-card-subtitle>
     </ion-card-header>
 
-    <ion-button *ngIf='!this.explanation' (click)='onExplain(this.img.title, this.img.artistDisplayName, this.img.objectEndDate)'>Can you explain ?</ion-button>
-    <ion-card-content *ngIf='this.explanation'>
+    <ion-button (click)='onExplain()' *ngIf='!this.isRevealed'>Can you explain ?</ion-button>
+    <ion-card-content *ngIf='this.isRevealed'>
      {{this.explanation}}
     </ion-card-content>
   </ion-card>
