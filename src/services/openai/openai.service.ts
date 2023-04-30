@@ -8,13 +8,12 @@ import { environment } from 'src/environments/environment';
 })
 export class OpenaiService {
   private urlApiOpenAi: string = environment.urlApiOpenAi;
-
-
+  private urlTest: string = environment.urlTest;
 
   constructor(private http: HttpClient) {}
 
   // get list of articles
   public getCollection(obj: any): Observable<any> {
-    return this.http.post<any>(`${this.urlApiOpenAi}`, obj);
+    return this.http.post<any>(`${this.urlTest}`, obj);
   }
 }

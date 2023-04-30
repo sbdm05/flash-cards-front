@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   BehaviorSubject,
@@ -10,12 +10,14 @@ import {
   retry,
   retryWhen,
   Subject,
+  Subscription,
   take,
   tap,
 } from 'rxjs';
 import { filteredId } from 'src/app/datas/filteredId/filtered-id';
 import { environment } from 'src/environments/environment';
 import { OpenaiService } from '../openai/openai.service';
+import { OpenAIStreamService } from '../openAIStream/open-aistream.service';
 
 @Injectable({
   providedIn: 'root',
@@ -38,9 +40,15 @@ export class MetApiService {
         'The response should start directly with the answer without you telling me anything else.',
     },
   ];
-  public explanation$ = new Subject();
+  public explanation$ = new BehaviorSubject('');
 
-  constructor(private http: HttpClient, private openAiService: OpenaiService) {}
+  private subscription!: Subscription;
+
+  constructor(
+    private http: HttpClient,
+    private openAiService: OpenaiService,
+    private openAIStream: OpenAIStreamService
+  ) {}
 
   public refresh() {
     this.getRandomItem();
@@ -48,13 +56,35 @@ export class MetApiService {
   }
 
   public askOpenAI(data: any) {
-    const newMessage = `Can you explain to a total beginner in painting the painting ${data.title} from ${data.artistDisplayName}, painted in ${data.objectEndDate}. The response should start directly with the answer without you telling me anything else.`;
-    this.messages = [...this.messages, { role: 'user', content: newMessage }];
-    this.openAiService.getCollection(this.messages).subscribe((data) => {
-      console.log(data);
-      const { chatGPTMessage } = data;
-      this.explanation$.next(chatGPTMessage.content);
-      //console.log(tempTab);
+    console.log(data)
+    //const newMessage = `Can you explain to a total beginner in painting the painting ${data.title} from ${data.artistDisplayName}, painted in ${data.objectEndDate}. The response should start directly with the answer without you telling me anything else.`;
+    //console.log(typeof newMessage)
+    // this.messages = [...this.messages, { role: 'user', content: newMessage }];
+    const newMessage = {
+      message: `Can you explain to a total beginner in painting the painting ${data.title} from ${data.artistDisplayName}, painted in ${data.objectEndDate}. The response should start directly with the answer without you telling me anything else.`,
+    };
+
+    this.openAIStream.getCollection(newMessage).subscribe({
+      next: (event: HttpEvent<any>) => {
+        console.log(event)
+        if (event.type === HttpEventType.Response) {
+          const response = event.body;
+          this.explanation$.next(response);
+          console.log(response);
+        } else if (event.type === HttpEventType.DownloadProgress) {
+          const response = event;
+          console.log(response);
+          // Handle progress notifications
+        } else if (event.type === HttpEventType.UploadProgress) {
+          // Handle progress notifications
+        } else if (event.type === HttpEventType.Sent) {
+          // Handle progress notifications
+        }
+        return event;
+      },
+      error: (error) => {
+        console.error(error);
+      },
     });
   }
 
@@ -72,7 +102,7 @@ export class MetApiService {
             data.primaryImage !== '' &&
             data.department === 'European Paintings'
           ) {
-            this.askOpenAI(data)
+            this.askOpenAI(data);
             return data;
           } else {
             console.log('problème');
@@ -84,5 +114,11 @@ export class MetApiService {
         next: (data) => this.collection$.next(data),
         error: (e) => this.getRandomItem(),
       });
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }
