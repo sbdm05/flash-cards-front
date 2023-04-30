@@ -99,7 +99,7 @@ export class MetApiService {
       .pipe(
         map((data) => {
           if (
-            data.primaryImage !== '' &&
+            data.primaryImageSmall !== '' &&
             data.department === 'European Paintings'
           ) {
             this.askOpenAI(data);

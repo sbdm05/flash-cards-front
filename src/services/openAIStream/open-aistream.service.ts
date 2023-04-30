@@ -33,7 +33,7 @@ export class OpenAIStreamService {
             console.log(response);
           } else if (event.type === HttpEventType.DownloadProgress) {
             const response = event;
-            console.log(response);
+            console.log(response, 'test');
             // Handle progress notifications
           } else if (event.type === HttpEventType.UploadProgress) {
             // Handle progress notifications
