@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { IonicModule, IonSpinner } from '@ionic/angular';
 import { promises } from 'dns';
+import { Observable } from 'rxjs';
 import { MetApiService } from 'src/services/metAPI/met-api.service';
 import { OpenaiService } from 'src/services/openai/openai.service';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
@@ -28,6 +29,11 @@ export class Tab1Page {
     private openAiService: OpenaiService,
     private metApiService: MetApiService
   ) {
+
+ this.metApiService.refresh().subscribe((item) => {
+   console.log(item);
+   this.img = item;
+ });
     // subscribe to explanation$
     this.metApiService.explanation$.subscribe(data=>{
       this.explanation = data
@@ -49,6 +55,12 @@ export class Tab1Page {
     this.explanation = '';
     this.isRevealed = false;
     console.log(this.img);
+
+  }
+
+  public onNext(){
+    console.log('next');
+    this.isRevealed = false;
     this.metApiService.refresh().subscribe((item) => {
       console.log(item);
       this.img = item;

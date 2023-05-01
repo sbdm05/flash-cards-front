@@ -9,7 +9,7 @@
 <!-- <ion-content [fullscreen]="true" class='main-content'>
   <app-form (submitted)='onSubmit($event)'></app-form>
 </ion-content> -->
-<ion-content >
+<ion-content>
 
 
   <ion-card *ngIf='this.img'>
@@ -21,6 +21,7 @@
     </ion-card-header>
 
     <ion-button (click)='onExplain()' *ngIf='!this.isRevealed'>Can you explain ?</ion-button>
+    <ion-button (click)='onNext()' >Next<ion-icon name="caret-forward-outline"></ion-icon></ion-button>
     <ion-card-content *ngIf='this.isRevealed'>
      {{this.explanation}}
     </ion-card-content>
