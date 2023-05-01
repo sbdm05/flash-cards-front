@@ -55,7 +55,10 @@ export class Tab1Page {
     this.explanation = '';
     this.isRevealed = false;
     console.log(this.img);
-
+this.metApiService.refresh().subscribe((item) => {
+  console.log(item);
+  this.img = item;
+});
   }
 
   public onNext(){

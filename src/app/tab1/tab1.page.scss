@@ -1,4 +1,9 @@
-.main-content{
---ion-background-color: var(--main-bg-color);
-color: white!important;
+// .main-content{
+// --ion-background-color: var(--main-bg-color);
+// color: white!important;
+// }
+ion-card{
+  background-color: white;
+      width: 90%;
+        margin: 1rem auto;
 }

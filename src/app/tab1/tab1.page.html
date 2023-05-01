@@ -16,12 +16,15 @@
     <ion-img [src]="this.img?.primaryImageSmall" [alt]="this.img?.title">
     </ion-img>
     <ion-card-header>
-      <ion-card-title>{{this.img?.title}}</ion-card-title>
+      <h4 style='flex:2'>{{this.img?.title}}</h4>
       <ion-card-subtitle>{{this.img.artistDisplayName}} - {{this.img?.objectDate}}</ion-card-subtitle>
+
     </ion-card-header>
 
-    <ion-button (click)='onExplain()' *ngIf='!this.isRevealed'>Can you explain ?</ion-button>
-    <ion-button (click)='onNext()' >Next<ion-icon name="caret-forward-outline"></ion-icon></ion-button>
+
+
+
+
     <ion-card-content *ngIf='this.isRevealed'>
      {{this.explanation}}
     </ion-card-content>
@@ -35,4 +38,10 @@
   </app-explore-container>
 </ion-content>
 
-
+<ion-footer>
+  <div style='display:flex; justify-content: flex-end; padding-inline: 20px'>
+  <ion-button (click)='onExplain()' *ngIf='!this.isRevealed'>What is the meaning ?</ion-button>
+<ion-button color='danger'><ion-icon style='flex:1' name="heart-outline"></ion-icon></ion-button>
+  <ion-button (click)='onNext()' style='text-align: right;'>Next<ion-icon name="caret-forward-outline"></ion-icon>
+  </ion-button>
+</div></ion-footer>
