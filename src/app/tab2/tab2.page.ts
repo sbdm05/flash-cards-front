@@ -24,7 +24,7 @@ export class Tab2Page {
     // subscribe to localStorage observable
     this.localStorageSubscription =
       this.localStorageService.updatedStorage$.subscribe((data) => {
-        console.log(data, 'updated localstorage');
+        // console.log(data, 'updated localstorage');
 
         this.collection = data;
       });
@@ -35,7 +35,7 @@ export class Tab2Page {
   }
 
   onOpen(img: any) {
-    console.log(img);
+    // console.log(img);
     this.currentObj$.next(img);
     this.currentObj = this.currentObj$.value;
     this.isModalOpen = true;

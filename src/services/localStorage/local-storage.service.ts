@@ -38,12 +38,12 @@ export class LocalStorageService {
       const imgFound = updatedStorageValue.find(
         (item) => item.objDetail.objectID === objSaved.objDetail.objectID
       );
-      console.log(imgFound, 'imgFound');
+      // console.log(imgFound, 'imgFound');
       if (imgFound) {
-        console.log(imgFound, 'already exists');
+        // console.log(imgFound, 'already exists');
         return;
       } else {
-        console.log('new', objSaved.objDetail.objectID);
+        // console.log('new', objSaved.objDetail.objectID);
         updatedStorageValue.unshift(objSaved);
         // updated observable
         this.updatedStorage$.next(updatedStorageValue)
@@ -55,7 +55,7 @@ export class LocalStorageService {
         );
       }
     } else if (updatedStorageValue.length === 0) {
-      console.log('new', objSaved.objDetail.objectID);
+      // console.log('new', objSaved.objDetail.objectID);
       updatedStorageValue.unshift(objSaved);
       // updated observable
       this.updatedStorage$.next(updatedStorageValue);
