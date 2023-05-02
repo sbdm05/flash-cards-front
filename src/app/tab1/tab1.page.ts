@@ -43,7 +43,7 @@ export class Tab1Page {
     });
 
     // subscribe to localStorage observable
-    this.localStorageSubscription = this.localStorageService.updatedStorage.subscribe(
+    this.localStorageSubscription = this.localStorageService.updatedStorage$.subscribe(
       (data) => {
         console.log(data, 'updated localstorage');
       }

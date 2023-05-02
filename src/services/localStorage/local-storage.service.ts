@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class LocalStorageService {
-  public updatedStorage: BehaviorSubject<any[]> = new BehaviorSubject<any[]>(
+  public updatedStorage$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>(
     []
   );
 
@@ -14,7 +14,16 @@ export class LocalStorageService {
       const localStorageTab = JSON.parse(
         localStorage.getItem('my-favorites-imgs') ?? ''
       );
-      this.updatedStorage.next(localStorageTab);
+      this.updatedStorage$.next(localStorageTab);
+    }
+  }
+
+  ionViewDidEnter(){
+    if (localStorage.getItem('my-favorites-imgs')) {
+      const localStorageTab = JSON.parse(
+        localStorage.getItem('my-favorites-imgs') ?? ''
+      );
+      this.updatedStorage$.next(localStorageTab);
     }
   }
 
@@ -23,7 +32,7 @@ export class LocalStorageService {
   // on add
   public onAdd(objSaved: any){
     // store the value as a []
-    let updatedStorageValue = this.updatedStorage.value;
+    let updatedStorageValue = this.updatedStorage$.value;
 
     if (updatedStorageValue.length > 0) {
       const imgFound = updatedStorageValue.find(
@@ -36,6 +45,10 @@ export class LocalStorageService {
       } else {
         console.log('new', objSaved.objDetail.objectID);
         updatedStorageValue.push(objSaved);
+        // updated observable
+        this.updatedStorage$.next(updatedStorageValue)
+
+        // updated localStorage
         localStorage.setItem(
           'my-favorites-imgs',
           JSON.stringify(updatedStorageValue)
@@ -44,6 +57,8 @@ export class LocalStorageService {
     } else if (updatedStorageValue.length === 0) {
       console.log('new', objSaved.objDetail.objectID);
       updatedStorageValue.push(objSaved);
+      // updated observable
+      this.updatedStorage$.next(updatedStorageValue);
       localStorage.setItem(
         'my-favorites-imgs',
         JSON.stringify(updatedStorageValue)

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
+import { Subscription } from 'rxjs';
+import { LocalStorageService } from 'src/services/localStorage/local-storage.service';
 
 @Component({
   selector: 'app-tab2',
@@ -9,5 +11,14 @@ import { IonicModule } from '@ionic/angular';
   imports: [IonicModule],
 })
 export class Tab2Page {
-  constructor() {}
+  public localStorageSubscription!: Subscription;
+
+  constructor(private localStorageService: LocalStorageService) {
+    // subscribe to localStorage
+    // subscribe to localStorage observable
+    this.localStorageSubscription =
+      this.localStorageService.updatedStorage$.subscribe((data) => {
+        console.log(data, 'updated localstorage');
+      });
+  }
 }
