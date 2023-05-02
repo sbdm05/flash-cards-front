@@ -8,6 +8,45 @@
 
 <ion-content [fullscreen]="true">
 
+<ion-grid>
+  <ion-row>
+    <ion-col sizeXs="6" sizeSm="6"  *ngFor="let image of collection">
 
+      <ion-card style='margin-inline:0px;max-width: 100%; height: 150px; object-fit: cover;margin-bottom:0px'>
+       <ion-img (click)='onOpen(image)' [src]='image.objDetail.primaryImageSmall' style='width: 100%; height: 150px; object-fit: cover;' id="open-modal" expand="block"/>
+
+      <ion-modal [isOpen]="isModalOpen">
+        <ng-template>
+          <ion-header>
+            <ion-toolbar>
+              <!-- <ion-title>{{currentObj.obj.detail.}}</ion-title> -->
+              <ion-buttons slot="end">
+                <ion-button (click)="onWillDismiss($event)" [strong]="true">Close</ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content class="ion-padding">
+          <ion-card style=' margin-inline: 0px;
+    max-width: 80%;
+    object-fit: cover;
+    margin-bottom: 0px;
+    background-color: #4f4e4e;
+    margin: 20px auto;'>
+            <ion-img [src]='currentObj.objDetail.primaryImageSmall' style='width: 100%; object-fit: cover;'
+              expand="block" />
+              <ion-card-content style='color: white;' [innerHtml]='currentObj.explanation'>
+
+              </ion-card-content>
+          </ion-card>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+
+</ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>
   <!-- <app-explore-container name="Tab 2 page"></app-explore-container> -->
+
+
 </ion-content>

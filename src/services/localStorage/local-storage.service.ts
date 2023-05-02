@@ -44,7 +44,7 @@ export class LocalStorageService {
         return;
       } else {
         console.log('new', objSaved.objDetail.objectID);
-        updatedStorageValue.push(objSaved);
+        updatedStorageValue.unshift(objSaved);
         // updated observable
         this.updatedStorage$.next(updatedStorageValue)
 
@@ -56,7 +56,7 @@ export class LocalStorageService {
       }
     } else if (updatedStorageValue.length === 0) {
       console.log('new', objSaved.objDetail.objectID);
-      updatedStorageValue.push(objSaved);
+      updatedStorageValue.unshift(objSaved);
       // updated observable
       this.updatedStorage$.next(updatedStorageValue);
       localStorage.setItem(
