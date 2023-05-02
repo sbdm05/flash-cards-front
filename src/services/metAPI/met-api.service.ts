@@ -56,7 +56,7 @@ export class MetApiService {
   }
 
   public askOpenAI(data: any) {
-    console.log(data)
+    // console.log(data)
     //const newMessage = `Can you explain to a total beginner in painting the painting ${data.title} from ${data.artistDisplayName}, painted in ${data.objectEndDate}. The response should start directly with the answer without you telling me anything else.`;
     //console.log(typeof newMessage)
     // this.messages = [...this.messages, { role: 'user', content: newMessage }];
@@ -66,14 +66,14 @@ export class MetApiService {
 
     this.openAIStream.getCollection(newMessage).subscribe({
       next: (event: HttpEvent<any>) => {
-        console.log(event)
+        // console.log(event)
         if (event.type === HttpEventType.Response) {
           const response = event.body;
           this.explanation$.next(response);
-          console.log(response);
+          // console.log(response);
         } else if (event.type === HttpEventType.DownloadProgress) {
           const response = event;
-          console.log(response);
+          // console.log(response);
           // Handle progress notifications
         } else if (event.type === HttpEventType.UploadProgress) {
           // Handle progress notifications
@@ -92,7 +92,7 @@ export class MetApiService {
     const id =
       this.filteredTab[Math.floor(Math.random() * this.filteredTab.length)];
     // get random id
-    console.log('inside getrandomItem', id);
+    // console.log('inside getrandomItem', id);
 
     this.http
       .get<any>(`${this.urlApi}/${id}`)
@@ -105,7 +105,7 @@ export class MetApiService {
             this.askOpenAI(data);
             return data;
           } else {
-            console.log('problème');
+            // console.log('problème');
             throw new Error();
           }
         })

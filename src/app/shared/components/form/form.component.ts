@@ -26,7 +26,7 @@ export class FormComponent implements OnInit {
   ngOnInit() {}
 
   onSubmit() {
-    console.log(this.form.value);
+    // console.log(this.form.value);
     //envoyer l'objet à tab1
     this.submitted.next(this.form.value);
   }

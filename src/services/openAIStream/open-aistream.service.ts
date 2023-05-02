@@ -19,7 +19,7 @@ export class OpenAIStreamService {
 
   // get list of articles
   public getCollection(obj: any): Observable<any> {
-    console.log(typeof obj, 'obj');
+    // (typeof obj, 'obj');
     return this.http
       .post(`${this.urlTest}`, obj, {
         observe: 'events',
@@ -30,10 +30,10 @@ export class OpenAIStreamService {
           // Handle the response stream from the backend API
           if (event.type === HttpEventType.Response) {
             const response = event.body;
-            console.log(response);
+            // console.log(response);
           } else if (event.type === HttpEventType.DownloadProgress) {
             const response = event;
-            console.log(response, 'test');
+            // console.log(response, 'test');
             // Handle progress notifications
           } else if (event.type === HttpEventType.UploadProgress) {
             // Handle progress notifications

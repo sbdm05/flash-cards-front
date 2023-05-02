@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { IonicModule, IonSpinner } from '@ionic/angular';
 import { promises } from 'dns';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { LocalStorageService } from 'src/services/localStorage/local-storage.service';
 import { MetApiService } from 'src/services/metAPI/met-api.service';
 import { OpenaiService } from 'src/services/openai/openai.service';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
@@ -25,13 +26,15 @@ export class Tab1Page {
   public explanation!: any;
   public isRevealed = false;
   public localStorageTab!: any[];
+  public localStorageSubscription!: Subscription;
 
   constructor(
     private openAiService: OpenaiService,
-    private metApiService: MetApiService
+    private metApiService: MetApiService,
+    private localStorageService: LocalStorageService
   ) {
     this.metApiService.refresh().subscribe((item) => {
-      console.log(item);
+      // console.log(item);
       this.img = item;
     });
     // subscribe to explanation$
@@ -39,46 +42,61 @@ export class Tab1Page {
       this.explanation = data;
     });
 
-    // check if localStorage exists
-    this.checkLocalStorageExists();
+    // subscribe to localStorage observable
+    this.localStorageSubscription = this.localStorageService.updatedStorage.subscribe(
+      (data) => {
+        console.log(data, 'updated localstorage');
+      }
+    );
   }
 
-  public checkLocalStorageExists() {
-    if (localStorage.getItem('my-favorites-imgs')) {
-      this.localStorageTab = JSON.parse(
-        localStorage.getItem('my-favorites-imgs') ?? ''
-      );
-    } else {
-      this.localStorageTab = [];
-    }
+  ngOnInit(){
+        console.log('test depuis ionviewenter');
+        this.img = '';
+        this.explanation = '';
+        this.isRevealed = false;
+        //console.log(this.img);
+        this.metApiService.refresh().subscribe((item) => {
+          // console.log(item);
+          this.img = item;
+        });
   }
 
-  public messages = [
-    {
-      role: 'system',
-      content:
-        'The response should start directly with the answer without you telling me anything else.',
-    },
-  ];
+  // public checkLocalStorageExists() {
+  //   if (localStorage.getItem('my-favorites-imgs')) {
+  //     this.localStorageTab = JSON.parse(
+  //       localStorage.getItem('my-favorites-imgs') ?? ''
+  //     );
+  //   } else {
+  //     this.localStorageTab = [];
+  //   }
+  // }
 
-  ionViewWillEnter() {
-    console.log('test depuis ionviewenter');
-    this.img = '';
-    this.explanation = '';
-    this.isRevealed = false;
-    console.log(this.img);
-    this.metApiService.refresh().subscribe((item) => {
-      console.log(item);
-      this.img = item;
-      this.checkLocalStorageExists();
-    });
+  // public messages = [
+  //   {
+  //     role: 'system',
+  //     content:
+  //       'The response should start directly with the answer without you telling me anything else.',
+  //   },
+  // ];
+
+  ionViewDidEnter() {
+    // console.log('test depuis ionviewenter');
+    // this.img = '';
+    // this.explanation = '';
+    // this.isRevealed = false;
+    // //console.log(this.img);
+    // this.metApiService.refresh().subscribe((item) => {
+    //   // console.log(item);
+    //   this.img = item;
+    // });
   }
 
   public onNext() {
-    console.log('next');
+    //console.log('next');
     this.isRevealed = false;
     this.metApiService.refresh().subscribe((item) => {
-      console.log(item);
+      //console.log(item);
       this.img = item;
     });
   }
@@ -100,41 +118,20 @@ export class Tab1Page {
   }
 
   onLike() {
-    console.log(this.img, 'thisimg');
+    // console.log(this.img, 'thisimg');
     //console.log(this.explanation, 'explanation');
     const objSaved = {
       objDetail: this.img,
       explanation: this.explanation,
     };
     //console.log(objSaved);
-    this.checkObjAlreadySaved(objSaved);
+    this.localStorageService.onAdd(objSaved);
   }
 
-  public checkObjAlreadySaved(objSaved: any) {
-    console.log(this.localStorageTab);
-    if (this.localStorageTab.length > 0) {
-      const imgFound = this.localStorageTab.find(
-        (item) => item.objDetail.objectID === objSaved.objDetail.objectID
-      );
-      console.log(imgFound, 'imgFound');
-      if (imgFound) {
-        console.log(imgFound, 'already exists');
-        return;
-      } else {
-       console.log('new', objSaved.objDetail.objectID);
-       this.localStorageTab.push(objSaved);
-       localStorage.setItem(
-         'my-favorites-imgs',
-         JSON.stringify(this.localStorageTab)
-       );
-      }
-    } else if (this.localStorageTab.length === 0) {
-      console.log('new', objSaved.objDetail.objectID);
-      this.localStorageTab.push(objSaved);
-      localStorage.setItem(
-        'my-favorites-imgs',
-        JSON.stringify(this.localStorageTab)
-      );
-    }
+
+  public onDestroy() {
+    console.log('ondestroy')
+    // TODO VERIFIER SI DECLENCHE, SINON PLACER DANS AUTRE METHODE
+    this.localStorageSubscription.unsubscribe();
   }
 }
