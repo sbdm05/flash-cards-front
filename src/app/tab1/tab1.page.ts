@@ -33,10 +33,10 @@ export class Tab1Page {
     private metApiService: MetApiService,
     private localStorageService: LocalStorageService
   ) {
-    this.metApiService.refresh().subscribe((item) => {
-      // console.log(item);
-      this.img = item;
-    });
+    // this.metApiService.refresh().subscribe((item) => {
+    //   // console.log(item);
+    //   this.img = item;
+    // });
     // subscribe to explanation$
     this.metApiService.explanation$.subscribe((data) => {
       this.explanation = data;
@@ -58,38 +58,18 @@ export class Tab1Page {
         //console.log(this.img);
         this.metApiService.refresh().subscribe((item) => {
           // console.log(item);
+
+
+
+
           this.img = item;
         });
   }
 
-  // public checkLocalStorageExists() {
-  //   if (localStorage.getItem('my-favorites-imgs')) {
-  //     this.localStorageTab = JSON.parse(
-  //       localStorage.getItem('my-favorites-imgs') ?? ''
-  //     );
-  //   } else {
-  //     this.localStorageTab = [];
-  //   }
-  // }
 
-  // public messages = [
-  //   {
-  //     role: 'system',
-  //     content:
-  //       'The response should start directly with the answer without you telling me anything else.',
-  //   },
-  // ];
 
   ionViewDidEnter() {
-    // console.log('test depuis ionviewenter');
-    // this.img = '';
-    // this.explanation = '';
-    // this.isRevealed = false;
-    // //console.log(this.img);
-    // this.metApiService.refresh().subscribe((item) => {
-    //   // console.log(item);
-    //   this.img = item;
-    // });
+
   }
 
   public onNext() {
@@ -98,6 +78,7 @@ export class Tab1Page {
     this.metApiService.refresh().subscribe((item) => {
       //console.log(item);
       this.img = item;
+      console.log(this.img)
     });
   }
 
@@ -118,13 +99,13 @@ export class Tab1Page {
   }
 
   onLike() {
-    // console.log(this.img, 'thisimg');
+    console.log(this.img.objectID, 'thisimg');
     //console.log(this.explanation, 'explanation');
     const objSaved = {
       objDetail: this.img,
       explanation: this.explanation,
     };
-    //console.log(objSaved);
+    console.log(objSaved);
     this.localStorageService.onAdd(objSaved);
   }
 

@@ -23,6 +23,13 @@ export const routes: Routes = [
           import('../tab3/tab3.page').then((m) => m.Tab3Page),
       },
       {
+        path: 'card-details/:id',
+        loadComponent: () =>
+          import('../card-details/card-details.page').then(
+            (m) => m.CardDetailsPage
+          ),
+      },
+      {
         path: '',
         redirectTo: '/tabs/tab1',
         pathMatch: 'full',

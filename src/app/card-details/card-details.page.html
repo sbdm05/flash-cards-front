@@ -1,0 +1,32 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start" style='background-color:var(--ion-color-primary-contrast)' (click)='onDelete()'>
+      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+    </ion-buttons>
+    <ion-buttons slot="end" style='background-color:var(--ion-color-primary-contrast)' (click)='onClose()'>
+      <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+    </ion-buttons>
+    <ion-title style='background-color:var(--ion-color-primary-contrast)'>
+      Detail
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-content class="ion-padding">
+    <ion-card *ngIf='obj.objDetail.primaryImageSmall' style=' margin-inline: 0px;
+      max-width: 90%;
+      object-fit: cover;
+      margin-bottom: 0px;
+      background-color: #4f4e4e;
+      margin: 20px auto;'>
+
+      <ion-img [src]='obj.objDetail.primaryImageSmall' style='width: 100%; object-fit: cover;' expand="block" />
+      <ion-card-content style='color: white;' [innerHtml]='obj.explanation'>
+
+      </ion-card-content>
+
+
+    </ion-card>
+  </ion-content>
+</ion-content>

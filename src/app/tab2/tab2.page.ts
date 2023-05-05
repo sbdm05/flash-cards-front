@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
-import { IonicModule, IonModal } from '@ionic/angular';
-import { OverlayEventDetail } from '@ionic/core';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { IonicModule, IonModal, ModalController } from '@ionic/angular';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { LocalStorageService } from 'src/services/localStorage/local-storage.service';
 
 @Component({
@@ -13,31 +13,34 @@ import { LocalStorageService } from 'src/services/localStorage/local-storage.ser
   imports: [IonicModule, CommonModule],
 })
 export class Tab2Page {
-  public localStorageSubscription!: Subscription;
-  public collection!: any[];
-  isModalOpen = false;
-  public currentObj$ = new BehaviorSubject('');
-  public currentObj: any;
+  public collection$!: Observable<any>;
 
-  constructor(private localStorageService: LocalStorageService) {
+  // public filteredTab = this.localStorageService.filteredTab;
+
+  //public currentObj$ = new BehaviorSubject({});
+  public currentObj = {
+    explanation: '',
+    objDetail: {
+      primaryImageSmall: null
+    },
+  };
+
+  constructor(private localStorageService: LocalStorageService, private router : Router) {
     // subscribe to localStorage
     // subscribe to localStorage observable
-    this.localStorageSubscription =
-      this.localStorageService.updatedStorage$.subscribe((data) => {
-        // console.log(data, 'updated localstorage');
 
-        this.collection = data;
-      });
+    this.collection$ = this.localStorageService.updatedStorage$;
   }
 
-  onWillDismiss(event: Event) {
-    this.isModalOpen = false;
-  }
+
 
   onOpen(img: any) {
-    // console.log(img);
-    this.currentObj$.next(img);
-    this.currentObj = this.currentObj$.value;
-    this.isModalOpen = true;
+    console.log(img.objDetail.objectID);
+    // this.isModalOpen = true;
+    // // this.currentObj$.next(img);
+    // this.currentObj = img;
+    this.router.navigate(['tabs', 'card-details', img.objDetail.objectID])
   }
+
+  
 }
