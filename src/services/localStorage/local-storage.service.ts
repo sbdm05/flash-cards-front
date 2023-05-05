@@ -6,7 +6,7 @@ import { BehaviorSubject, filter, Observable } from 'rxjs';
 })
 export class LocalStorageService {
   public updatedStorage$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-  //public filteredTab!: [];
+
 
   constructor() {
     if (localStorage.getItem('my-favorites-imgs')) {
@@ -14,7 +14,7 @@ export class LocalStorageService {
         localStorage.getItem('my-favorites-imgs') ?? ''
       );
       this.updatedStorage$.next(localStorageTab);
-      // this.filteredTab = localStorageTab
+
     }
   }
 
@@ -26,7 +26,7 @@ export class LocalStorageService {
         localStorage.getItem('my-favorites-imgs') ?? ''
       );
       this.updatedStorage$.next(localStorageTab);
-      //this.filteredTab = localStorageTab;
+     
     }
   }
 

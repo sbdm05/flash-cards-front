@@ -15,32 +15,16 @@ import { LocalStorageService } from 'src/services/localStorage/local-storage.ser
 export class Tab2Page {
   public collection$!: Observable<any>;
 
-  // public filteredTab = this.localStorageService.filteredTab;
-
-  //public currentObj$ = new BehaviorSubject({});
-  public currentObj = {
-    explanation: '',
-    objDetail: {
-      primaryImageSmall: null
-    },
-  };
-
-  constructor(private localStorageService: LocalStorageService, private router : Router) {
-    // subscribe to localStorage
-    // subscribe to localStorage observable
-
+  constructor(
+    private localStorageService: LocalStorageService,
+    private router: Router
+  ) {
     this.collection$ = this.localStorageService.updatedStorage$;
   }
 
-
-
   onOpen(img: any) {
     console.log(img.objDetail.objectID);
-    // this.isModalOpen = true;
-    // // this.currentObj$.next(img);
-    // this.currentObj = img;
-    this.router.navigate(['tabs', 'card-details', img.objDetail.objectID])
-  }
 
-  
+    this.router.navigate(['tabs', 'card-details', img.objDetail.objectID]);
+  }
 }

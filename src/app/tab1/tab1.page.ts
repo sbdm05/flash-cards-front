@@ -74,6 +74,7 @@ export class Tab1Page {
 
   public onNext() {
     //console.log('next');
+    this.explanation = ''; 
     this.isRevealed = false;
     this.metApiService.refresh().subscribe((item) => {
       //console.log(item);
