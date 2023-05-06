@@ -22,12 +22,19 @@
       margin: 20px auto;'>
 
       <ion-img [src]='obj.objDetail.primaryImageSmall' style='width: 100%; object-fit: cover;' expand="block" />
-      <ion-card-content style='color: white;' [innerHtml]='obj.explanation'>
+
+        <ion-card-header>
+
+          <ion-card-subtitle style='color: white;'>Artist : {{obj.objDetail.artistDisplayName}} - {{obj.objDetail.objectEndDate}}</ion-card-subtitle>
+          <ion-card-subtitle style='color: white;'>{{obj.objDetail.title}}</ion-card-subtitle>
+
+        </ion-card-header>
+      <ion-card-content *ngIf='obj.explanation' style='color: white;' [innerHtml]='obj.explanation'>
 
       </ion-card-content>
 
 
     </ion-card>
-   
+
   </ion-content>
 </ion-content>

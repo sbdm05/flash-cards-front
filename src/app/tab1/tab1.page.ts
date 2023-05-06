@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { IonicModule, IonSpinner } from '@ionic/angular';
+import { IonicModule, IonSpinner, ToastController } from '@ionic/angular';
 import { promises } from 'dns';
 import { Observable, Subscription } from 'rxjs';
 import { LocalStorageService } from 'src/services/localStorage/local-storage.service';
@@ -31,7 +31,8 @@ export class Tab1Page {
   constructor(
     private openAiService: OpenaiService,
     private metApiService: MetApiService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    public toastController: ToastController
   ) {
     // this.metApiService.refresh().subscribe((item) => {
     //   // console.log(item);
@@ -43,43 +44,43 @@ export class Tab1Page {
     });
 
     // subscribe to localStorage observable
-    this.localStorageSubscription = this.localStorageService.updatedStorage$.subscribe(
-      (data) => {
+    this.localStorageSubscription =
+      this.localStorageService.updatedStorage$.subscribe((data) => {
         console.log(data, 'updated localstorage');
-      }
-    );
+      });
   }
 
-  ngOnInit(){
-        console.log('test depuis ionviewenter');
-        this.img = '';
-        this.explanation = '';
-        this.isRevealed = false;
-        //console.log(this.img);
-        this.metApiService.refresh().subscribe((item) => {
-          // console.log(item);
+  ngOnInit() {
+    console.log('test depuis ionviewenter');
+    this.img = '';
+    this.explanation = '';
+    this.isRevealed = false;
+    //console.log(this.img);
+    this.metApiService.refresh().subscribe((item) => {
+      // console.log(item);
 
-
-
-
-          this.img = item;
-        });
+      this.img = item;
+    });
   }
 
+  ionViewDidEnter() {}
 
-
-  ionViewDidEnter() {
-
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Saved in your favorites',
+      duration: 2000,
+    });
+    toast.present();
   }
 
   public onNext() {
     //console.log('next');
-    this.explanation = ''; 
+    this.explanation = '';
     this.isRevealed = false;
     this.metApiService.refresh().subscribe((item) => {
       //console.log(item);
       this.img = item;
-      console.log(this.img)
+      console.log(this.img);
     });
   }
 
@@ -102,17 +103,19 @@ export class Tab1Page {
   onLike() {
     console.log(this.img.objectID, 'thisimg');
     //console.log(this.explanation, 'explanation');
-    const objSaved = {
-      objDetail: this.img,
-      explanation: this.explanation,
-    };
-    console.log(objSaved);
-    this.localStorageService.onAdd(objSaved);
+    if (this.explanation !== '' && this.img.objectID) {
+      const objSaved = {
+        objDetail: this.img,
+        explanation: this.explanation,
+      };
+      console.log(objSaved);
+      this.localStorageService.onAdd(objSaved);
+      this.presentToast();
+    }
   }
 
-
   public onDestroy() {
-    console.log('ondestroy')
+    console.log('ondestroy');
     // TODO VERIFIER SI DECLENCHE, SINON PLACER DANS AUTRE METHODE
     this.localStorageSubscription.unsubscribe();
   }
