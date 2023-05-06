@@ -21,7 +21,7 @@ export class OpenAIStreamService {
   public getCollection(obj: any): Observable<any> {
     // (typeof obj, 'obj');
     return this.http
-      .post(`${this.urlTest}`, obj, {
+      .post(`${this.urlApi}`, obj, {
         observe: 'events',
         responseType: 'text',
       })

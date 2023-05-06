@@ -25,6 +25,7 @@ export class Tab1Page {
   public img!: any;
   public explanation!: any;
   public isRevealed = false;
+  public isBtnInterestingVisible = false;
   public localStorageTab!: any[];
   public localStorageSubscription!: Subscription;
 
@@ -39,9 +40,13 @@ export class Tab1Page {
     //   this.img = item;
     // });
     // subscribe to explanation$
-    this.metApiService.explanation$.subscribe((data) => {
-      this.explanation = data;
-    });
+    // this.metApiService.explanation$.subscribe((data) => {
+    //   this.explanation = data;
+    // });
+
+     this.metApiService.getExplanation().subscribe((explanation) => {
+       this.explanation += (this.explanation ? ', ' : '') + explanation;
+     });
 
     // subscribe to localStorage observable
     this.localStorageSubscription =
@@ -77,6 +82,7 @@ export class Tab1Page {
     //console.log('next');
     this.explanation = '';
     this.isRevealed = false;
+    this.isBtnInterestingVisible = false;
     this.metApiService.refresh().subscribe((item) => {
       //console.log(item);
       this.img = item;
@@ -98,7 +104,18 @@ export class Tab1Page {
   onExplain() {
     // reveal
     this.isRevealed = true;
+    this.isBtnInterestingVisible = true;
+
   }
+
+  onInteresting(){
+    console.log(this.img, 'from on interesting');
+    this.metApiService.askInterestOpenAI(this.img).subscribe(data=>{
+      console.log(data);
+
+    });
+
+}
 
   onLike() {
     console.log(this.img.objectID, 'thisimg');
