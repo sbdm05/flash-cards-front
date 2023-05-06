@@ -113,6 +113,31 @@ export class MetApiService {
     );
   }
 
+  public askSimilarArtistOpenAI(data: any): Observable<any> {
+    console.log(data);
+    //const newMessage = `Can you explain to a total beginner in painting the painting ${data.title} from ${data.artistDisplayName}, painted in ${data.objectEndDate}. The response should start directly with the answer without you telling me anything else.`;
+    //console.log(typeof newMessage)
+    // this.messages = [...this.messages, { role: 'user', content: newMessage }];
+    const newMessage = {
+      message: `What are the other paintings by other artists similar to ${data.title} from ${data.artistDisplayName}, painted in ${data.objectEndDate} ? The response should start directly with the answer without you telling me anything else.`,
+    };
+
+    return this.openAIStream.getCollection(newMessage).pipe(
+      tap((event: HttpEvent<any>) => {
+        if (event.type === HttpEventType.Response) {
+          const response = event.body;
+          this.explanation$.next(response);
+        } else if (event.type === HttpEventType.DownloadProgress) {
+          // Handle progress notifications
+        } else if (event.type === HttpEventType.UploadProgress) {
+          // Handle progress notifications
+        } else if (event.type === HttpEventType.Sent) {
+          // Handle progress notifications
+        }
+      })
+    );
+  }
+
   public getExplanation() {
     return this.explanation$.asObservable();
   }

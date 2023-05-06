@@ -26,6 +26,8 @@ export class Tab1Page {
   public explanation!: any;
   public isRevealed = false;
   public isBtnInterestingVisible = false;
+  public isMoreInfo = false;
+
   public localStorageTab!: any[];
   public localStorageSubscription!: Subscription;
 
@@ -44,9 +46,9 @@ export class Tab1Page {
     //   this.explanation = data;
     // });
 
-     this.metApiService.getExplanation().subscribe((explanation) => {
-       this.explanation += (this.explanation ? ', ' : '') + explanation;
-     });
+    this.metApiService.getExplanation().subscribe((explanation) => {
+      this.explanation += (this.explanation ? ' ' : '') + explanation;
+    });
 
     // subscribe to localStorage observable
     this.localStorageSubscription =
@@ -83,6 +85,7 @@ export class Tab1Page {
     this.explanation = '';
     this.isRevealed = false;
     this.isBtnInterestingVisible = false;
+    this.isMoreInfo = false;
     this.metApiService.refresh().subscribe((item) => {
       //console.log(item);
       this.img = item;
@@ -105,17 +108,22 @@ export class Tab1Page {
     // reveal
     this.isRevealed = true;
     this.isBtnInterestingVisible = true;
-
   }
 
-  onInteresting(){
+  onInteresting() {
     console.log(this.img, 'from on interesting');
-    this.metApiService.askInterestOpenAI(this.img).subscribe(data=>{
+    this.isBtnInterestingVisible = false;
+    this.isMoreInfo = true;
+    this.metApiService.askInterestOpenAI(this.img).subscribe((data) => {
       console.log(data);
-
     });
+  }
 
-}
+  onMore() {
+    this.metApiService.askSimilarArtistOpenAI(this.img).subscribe((data) => {
+      console.log(data);
+    });
+  }
 
   onLike() {
     console.log(this.img.objectID, 'thisimg');

@@ -42,6 +42,8 @@
   <div style='display:flex; justify-content: flex-end; padding-inline: 20px'>
   <ion-button (click)='onExplain()' *ngIf='!this.isRevealed'>What is it about ?</ion-button>
   <ion-button (click)='onInteresting()' *ngIf='this.isBtnInterestingVisible'>Why is it interesting ?</ion-button>
+  <ion-button (click)='onMore()' *ngIf='this.isMoreInfo'>Influences ?</ion-button>
+
 
   <ion-button (click)='onLike()' color='danger' ><ion-icon style='flex:1' name="heart-outline"></ion-icon></ion-button>
 
