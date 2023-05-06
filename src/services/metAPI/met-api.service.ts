@@ -119,7 +119,8 @@ export class MetApiService {
     //console.log(typeof newMessage)
     // this.messages = [...this.messages, { role: 'user', content: newMessage }];
     const newMessage = {
-      message: `What are the other paintings by other artists similar to ${data.title} from ${data.artistDisplayName}, painted in ${data.objectEndDate} ? The response should start directly with the answer without you telling me anything else.`,
+      // message: `What are the other paintings by other artists similar to ${data.title} from ${data.artistDisplayName}, painted in ${data.objectEndDate} ? The response should start directly with the answer without you telling me anything else.`,
+      message: `Provide links of images of images surrounded by <img src='here the link' />, similar to ${data.title} from ${data.artistDisplayName}, painted in ${data.objectEndDate} ? The response should start directly with the answer without you telling me anything else.`,
     };
 
     return this.openAIStream.getCollection(newMessage).pipe(

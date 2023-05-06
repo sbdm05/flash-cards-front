@@ -120,6 +120,7 @@ export class Tab1Page {
   }
 
   onMore() {
+    this.isMoreInfo = false;
     this.metApiService.askSimilarArtistOpenAI(this.img).subscribe((data) => {
       console.log(data);
     });
