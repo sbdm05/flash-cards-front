@@ -30,15 +30,17 @@ export const routes: Routes = [
           ),
       },
       {
-        path: '',
-        redirectTo: '/tabs/tab1',
-        pathMatch: 'full',
+        path: 'loader',
+        loadComponent: () =>
+          import('../loader/loader.page').then(
+            (m) => m.LoaderPage
+          ),
       },
     ],
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/loader',
     pathMatch: 'full',
   },
 ];

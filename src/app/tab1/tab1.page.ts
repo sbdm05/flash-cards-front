@@ -2,12 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { IonicModule, IonSpinner, ToastController } from '@ionic/angular';
 import { promises } from 'dns';
-import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { LocalStorageService } from 'src/services/localStorage/local-storage.service';
 import { MetApiService } from 'src/services/metAPI/met-api.service';
 import { OpenaiService } from 'src/services/openai/openai.service';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
 import { FormComponent } from '../shared/components/form/form.component';
+import { SanitizerPipe } from '../utils/sanitizer.pipe';
 
 @Component({
   selector: 'app-tab1',
@@ -19,6 +20,7 @@ import { FormComponent } from '../shared/components/form/form.component';
     IonicModule,
     FormComponent,
     CommonModule,
+    SanitizerPipe
   ],
 })
 export class Tab1Page {
@@ -26,6 +28,7 @@ export class Tab1Page {
   public explanation!: any;
   public isRevealed = false;
   public isBtnInterestingVisible = false;
+  public linksSuggested = new BehaviorSubject<any[]>([]);
   public isMoreInfo = false;
 
   public localStorageTab!: any[];
@@ -115,16 +118,18 @@ export class Tab1Page {
     this.isBtnInterestingVisible = false;
     this.isMoreInfo = true;
     this.metApiService.askInterestOpenAI(this.img).subscribe((data) => {
-      console.log(data);
+      console.log(data.body);
     });
   }
 
-  onMore() {
-    this.isMoreInfo = false;
-    this.metApiService.askSimilarArtistOpenAI(this.img).subscribe((data) => {
-      console.log(data);
-    });
-  }
+  // onMore() {
+  //   this.isMoreInfo = false;
+  //   this.metApiService.askSimilarArtistOpenAI(this.img).subscribe((data) => {
+  //     console.log(data.body, 'data depuis onMore');
+  //     this.linksSuggested.next([data.body]);
+  //     console.log(this.linksSuggested)
+  //   });
+  // }
 
   onLike() {
     console.log(this.img.objectID, 'thisimg');

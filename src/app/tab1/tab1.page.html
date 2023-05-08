@@ -30,6 +30,18 @@
     </ion-card-content>
   </ion-card>
 
+  <!-- <ion-grid>
+    <ion-row>
+      <ion-col sizeXs="6" sizeSm="6" *ngFor='let image of linksSuggested | async'>
+
+        <ion-card style='margin-inline:0px;max-width: 100%; height: 150px; object-fit: cover;margin-bottom:0px'>
+          <img [src]='image | sanitizer'>
+        </ion-card>
+      </ion-col>
+       <div *ngIf='collection.length === 0' style='color:white'>No Favorites for the moment</div>
+    </ion-row>
+  </ion-grid> -->
+
 </ion-content>
 
 <ion-content *ngIf='!this.img'>
@@ -42,7 +54,7 @@
   <div style='display:flex; justify-content: flex-end; padding-inline: 20px'>
   <ion-button (click)='onExplain()' *ngIf='!this.isRevealed'>What is it about ?</ion-button>
   <ion-button (click)='onInteresting()' *ngIf='this.isBtnInterestingVisible'>Why is it interesting ?</ion-button>
-  <ion-button (click)='onMore()' *ngIf='this.isMoreInfo'>Influences ?</ion-button>
+  <!-- <ion-button (click)='onMore()' *ngIf='this.isMoreInfo'>Influences ?</ion-button> -->
 
 
   <ion-button (click)='onLike()' color='danger' ><ion-icon style='flex:1' name="heart-outline"></ion-icon></ion-button>
