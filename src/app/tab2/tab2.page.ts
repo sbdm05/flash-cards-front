@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { IonicModule, IonModal, ModalController } from '@ionic/angular';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { LocalStorageService } from 'src/services/localStorage/local-storage.service';
+import { ExploreContainerComponent } from '../explore-container/explore-container.component';
 import { SanitizerPipe } from '../utils/sanitizer.pipe';
 
 @Component({
@@ -11,7 +12,7 @@ import { SanitizerPipe } from '../utils/sanitizer.pipe';
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, SanitizerPipe],
+  imports: [IonicModule, CommonModule, SanitizerPipe, ExploreContainerComponent],
 })
 export class Tab2Page {
   public collection$!: Observable<any>;
