@@ -40,7 +40,7 @@ export class MetApiService {
         'The response should start directly with the answer without you telling me anything else.',
     },
   ];
-  private explanation$ = new BehaviorSubject<string>('');
+  private explanation$ = new Subject<string>();
   private links$ = new BehaviorSubject<string>('');
 
   private subscription!: Subscription;
@@ -62,7 +62,7 @@ export class MetApiService {
     //console.log(typeof newMessage)
     // this.messages = [...this.messages, { role: 'user', content: newMessage }];
     const newMessage = {
-      message: `Can you explain to a total beginner in painting the painting ${data.title} from ${data.artistDisplayName}, painted in ${data.objectEndDate}. The response should start directly with the answer without you telling me anything else.`,
+      message: `Explain to a total beginner in painting the painting ${data.title} from ${data.artistDisplayName}, painted in ${data.objectEndDate}. The response should start directly with the answer without you telling me anything else.`,
     };
 
     this.openAIStream.getCollection(newMessage).subscribe({

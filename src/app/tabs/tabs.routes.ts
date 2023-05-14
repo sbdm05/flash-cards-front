@@ -1,4 +1,3 @@
-
 import { Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
 
@@ -30,18 +29,15 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'loader',
-        loadComponent: () =>
-          import('../loader/loader.page').then(
-            (m) => m.LoaderPage
-          ),
+        path: '',
+        redirectTo: '/tabs/tab1',
+        pathMatch: 'full',
       },
     ],
   },
   {
     path: '',
-    redirectTo: '/loader',
+    redirectTo: '/tabs/tab1',
     pathMatch: 'full',
   },
 ];
-

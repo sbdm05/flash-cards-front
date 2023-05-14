@@ -20,7 +20,7 @@ import { SanitizerPipe } from '../utils/sanitizer.pipe';
     IonicModule,
     FormComponent,
     CommonModule,
-    SanitizerPipe
+    SanitizerPipe,
   ],
 })
 export class Tab1Page {
@@ -30,6 +30,7 @@ export class Tab1Page {
   public isBtnInterestingVisible = false;
   public linksSuggested = new BehaviorSubject<any[]>([]);
   public isMoreInfo = false;
+  public getExplanation!: Subscription;
 
   public localStorageTab!: any[];
   public localStorageSubscription!: Subscription;
@@ -49,10 +50,6 @@ export class Tab1Page {
     //   this.explanation = data;
     // });
 
-    this.metApiService.getExplanation().subscribe((explanation) => {
-      this.explanation += (this.explanation ? ' ' : '') + explanation;
-    });
-
     // subscribe to localStorage observable
     this.localStorageSubscription =
       this.localStorageService.updatedStorage$.subscribe((data) => {
@@ -70,10 +67,14 @@ export class Tab1Page {
       // console.log(item);
 
       this.img = item;
+      this.getExplanation = this.metApiService
+        .getExplanation()
+        .subscribe((explanation) => {
+          this.explanation += (this.explanation ? ' ' : '') + explanation;
+          console.log(this.explanation)
+        });
     });
   }
-
-  ionViewDidEnter() {}
 
   async presentToast() {
     const toast = await this.toastController.create({
@@ -86,13 +87,20 @@ export class Tab1Page {
   public onNext() {
     //console.log('next');
     this.explanation = '';
+    this.getExplanation.unsubscribe();
     this.isRevealed = false;
     this.isBtnInterestingVisible = false;
     this.isMoreInfo = false;
+    this.img = '';
     this.metApiService.refresh().subscribe((item) => {
       //console.log(item);
       this.img = item;
       console.log(this.img);
+      this.getExplanation = this.metApiService
+        .getExplanation()
+        .subscribe((explanation) => {
+          this.explanation += (this.explanation ? ' ' : '') + explanation;
+        });
     });
   }
 
@@ -147,7 +155,7 @@ export class Tab1Page {
 
   public onDestroy() {
     console.log('ondestroy');
-    // TODO VERIFIER SI DECLENCHE, SINON PLACER DANS AUTRE METHODE
     this.localStorageSubscription.unsubscribe();
+    this.getExplanation.unsubscribe();
   }
 }
